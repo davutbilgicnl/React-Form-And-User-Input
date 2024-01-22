@@ -2,8 +2,9 @@ import { useState } from "react";
 
 export default function Login() {
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const [didEdit, setDidEdit] = useState({ email: false, password: false });
 
-  const emailIsInvalid = credentials.email !== "" && !credentials.email.includes("@");
+  const emailIsInvalid = didEdit.email && !credentials.email.includes("@");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -18,6 +19,18 @@ export default function Login() {
       ...prevValues,
       [identifier]: value,
     }));
+
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: false,
+    }));
+  }
+
+  function handleInputBlur(identifier) {
+    setDidEdit((prevEdit) => ({
+      ...prevEdit,
+      [identifier]: true,
+    }));
   }
 
   return (
@@ -31,6 +44,7 @@ export default function Login() {
             id="email"
             type="email"
             name="email"
+            onBlur={() => handleInputBlur("email")}
             value={credentials.email}
             onChange={(event) => handleCredentialsChange("email", event.target.value)}
           />
