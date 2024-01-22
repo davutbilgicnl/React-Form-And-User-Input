@@ -1,31 +1,16 @@
-import { useState } from "react";
+import { useRef } from "react";
 
 export default function Login() {
-  // const [enteredEmail, setEnteredEmail] = useState("");
-  // const [enteredPassword, setEnteredPassword] = useState("");
-  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  const email = useRef();
+  const password = useRef();
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(typeof credentials.email, "- email: " + credentials.email);
-    console.log(typeof credentials.password, "- password: " + credentials.password);
-    console.log(typeof credentials, credentials);
-  }
 
-  // function handleEmailChange(event) {
-  //   setEnteredEmail(event.target.value);
-  // }
+    const eneteredEmail = email.current.value;
+    const eneteredPassword = password.current.value;
 
-  // function handlePasswordChange(event) {
-  //   setEnteredPassword(event.target.value);
-  // }
-
-  //more generic versetile
-  function handleCredentialsChange(identifier, value) {
-    setCredentials((prevValues) => ({
-      ...prevValues,
-      [identifier]: value,
-    }));
+    console.log(eneteredEmail, eneteredPassword);
   }
 
   return (
@@ -35,24 +20,12 @@ export default function Login() {
       <div className="control-row">
         <div className="control no-margin">
           <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            value={credentials.email}
-            onChange={(event) => handleCredentialsChange("email", event.target.value)}
-          />
+          <input id="email" type="email" name="email" ref={email} />
         </div>
 
         <div className="control no-margin">
           <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            value={credentials.password}
-            onChange={(event) => handleCredentialsChange("password", event.target.value)}
-          />
+          <input id="password" type="password" name="password" ref={password} />
         </div>
       </div>
 
