@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 export default function Login() {
-  // const [enteredEmail, setEnteredEmail] = useState("");
-  // const [enteredPassword, setEnteredPassword] = useState("");
   const [credentials, setCredentials] = useState({ email: "", password: "" });
+
+  const emailIsInvalid = credentials.email !== "" && !credentials.email.includes("@");
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -11,14 +11,6 @@ export default function Login() {
     console.log(typeof credentials.password, "- password: " + credentials.password);
     console.log(typeof credentials, credentials);
   }
-
-  // function handleEmailChange(event) {
-  //   setEnteredEmail(event.target.value);
-  // }
-
-  // function handlePasswordChange(event) {
-  //   setEnteredPassword(event.target.value);
-  // }
 
   //more generic versetile
   function handleCredentialsChange(identifier, value) {
@@ -42,6 +34,9 @@ export default function Login() {
             value={credentials.email}
             onChange={(event) => handleCredentialsChange("email", event.target.value)}
           />
+          <div className="control-error">
+            {emailIsInvalid && <p>Please enter a valid email address.</p>}
+          </div>
         </div>
 
         <div className="control no-margin">
