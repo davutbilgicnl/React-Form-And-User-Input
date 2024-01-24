@@ -1,22 +1,22 @@
+import { useState } from "react";
+
 export default function Signup() {
+  const [passwordsAreNotEqual, setPasswordsAreNotEqual] = useState(false);
+
   function handleSubmit(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
-    // const eneteredEmail = formData.get("email");
-    // ...
-    // instead
-    // use more easy way below
-
-    // If you have same attribute names more than once, you need to add them to entries
-    // because if you have multiple attributes that have the same name, you lost values.
-    // Down there checkboxes have the same name, so you need to add them to back
-    const acquisitionChanel = formData.getAll("acquisition"); // "acquisition" => name of checkboxes.
+    const acquisitionChanel = formData.getAll("acquisition");
     const data = Object.fromEntries(formData.entries());
-    data.acquisition = acquisitionChanel; // added losted values to entries again
-    console.log(typeof data, data);
+    data.acquisition = acquisitionChanel;
 
-    // *** To use FormData way, every element must have name attribute ***
+    if (data.password !== data["confirm-password"]) {
+      setPasswordsAreNotEqual(() => true);
+      return;
+    }
+
+    console.log(typeof data, data);
   }
 
   return (
@@ -38,6 +38,7 @@ export default function Signup() {
         <div className="control">
           <label htmlFor="confirm-password">Confirm Password</label>
           <input id="confirm-password" type="password" name="confirm-password" required />
+          <div className="control-error">{passwordsAreNotEqual && <p>Password must match.</p>}</div>
         </div>
       </div>
 
